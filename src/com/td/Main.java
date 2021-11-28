@@ -1,6 +1,5 @@
 package com.td;
 
-//Part1 Start
 import java.awt.Color;
 
 import javax.swing.JFrame;
@@ -16,7 +15,6 @@ public class Main {
         obj.setResizable(false);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         obj.add(gameplay);
-        //Part 1 End
         obj.setVisible(true);
     }
 }
