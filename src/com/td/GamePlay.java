@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
@@ -30,7 +31,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
-        Timer timer = new Timer(delay, this);
+        timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -89,7 +90,108 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        timer.restart();
 
+        if(right)
+        {
+            for(int n = snakeLength-1; n>=0;n--)
+            {
+                snakeYlength[n+1] = snakeYlength[n];
+            }
+            for(int n = snakeLength; n>=0; n--)
+            {
+                if (n==0)
+                {
+                    snakeXlength[n] = snakeXlength[n]+25;
+                }
+                else
+                {
+                    snakeXlength[n] = snakeXlength[n-1];
+                }
+                if(snakeXlength[n] >850)
+                {
+                    snakeXlength[n] = 25;
+                }
+
+            }
+            repaint();
+        }
+
+        if(left)
+        {
+            for(int n = snakeLength-1; n>=0;n--)
+            {
+                snakeYlength[n+1] = snakeYlength[n];
+            }
+            for(int n = snakeLength; n>=0; n--)
+            {
+                if (n==0)
+                {
+                    snakeXlength[n] = snakeXlength[n]-25;
+                }
+                else
+                {
+                    snakeXlength[n] = snakeXlength[n-1];
+                }
+                if(snakeXlength[n] < 25)
+                {
+                    snakeXlength[n] = 850;
+                }
+
+            }
+            repaint();
+
+        }
+        if(up)
+        {
+            for(int n = snakeLength-1; n>=0;n--)
+            {
+                snakeXlength[n+1] = snakeXlength[n];
+            }
+            for(int n = snakeLength; n>=0; n--)
+            {
+                if (n==0)
+                {
+                    snakeYlength[n] = snakeYlength[n]-25;
+                }
+                else
+                {
+                    snakeYlength[n] = snakeYlength[n-1];
+                }
+                if(snakeYlength[n] < 75)
+                {
+                    snakeYlength[n] = 625;
+                }
+
+            }
+            repaint();
+
+        }
+        if(down)
+        {
+            for(int n = snakeLength-1; n>=0;n--)
+            {
+                snakeXlength[n+1] = snakeXlength[n];
+            }
+            for(int n = snakeLength; n>=0; n--)
+            {
+                if (n==0)
+                {
+                    snakeYlength[n] = snakeYlength[n]+25;
+                }
+                else
+                {
+                    snakeYlength[n] = snakeYlength[n-1];
+                }
+                if(snakeYlength[n] > 625)
+                {
+                    snakeYlength[n] = 75;
+                }
+
+            }
+
+            repaint();
+        }
     }
 
     @Override
@@ -99,7 +201,57 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            moves++;
 
+            if (!left) {
+                right = true;
+            } else {
+                right = false;
+                left = true;
+            }
+            up = false;
+            down = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            moves++;
+
+            if (!right) {
+                left = true;
+            } else {
+                left = false;
+                right = true;
+            }
+            up = false;
+            down = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            moves++;
+
+            if (!down) {
+                up = true;
+            } else {
+                up = false;
+                down = true;
+            }
+            left = false;
+            right = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            moves++;
+
+            if (!up) {
+                down = true;
+            } else {
+                down = false;
+                up = true;
+            }
+            left = false;
+            right = false;
+        }
     }
 
     @Override
