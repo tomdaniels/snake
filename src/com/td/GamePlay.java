@@ -5,26 +5,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.Timer;
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
-    private ImageIcon titleImage, headRight, headLeft, headDown, headUp, tail;
-
-    private int [] snakeXlength = new int[750];
-    private int [] snakeYlength = new int[750];
+    private final int [] snakeXlength = new int[750];
+    private final int [] snakeYlength = new int[750];
 
     private byte snakeLength = 3;
 
     private boolean left, right, up ,down = false;
 
-    private Timer timer;
-    private int delay = 100;
+    private final Timer timer;
+    private final int delay = 100;
 
     private int moves = 0;
     private int score = 0;
+
+    private final int [] fruitXpos = {25,50,75,100,125,150,175,200,225,250,275,300,325,250,375,400,425,450,475,500,525,550,575,600,
+            625,650,675,700,725,750,775,800,825,850};
+
+    private final int [] fruitYpos = {75,100,125,150,175,200,225,250,275,300,325,250,375,400,425,450,475,500,525,550,575,600,
+            625};
+
+    private final Random random = new Random();
+    private int xpos = random.nextInt(34);
+    private int ypos = random.nextInt(23);
 
     public GamePlay() {
         addKeyListener(this);
@@ -36,6 +45,9 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
 
     public void paint(Graphics g) {
+
+        ImageIcon titleImage, headRight, headLeft, headDown, headUp, tail, fruitImage;
+
 
         if (moves == 0) {
             snakeXlength[0] = 100;
@@ -83,6 +95,16 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 tail = new ImageIcon("./src/assets/tail.png");
                 tail.paintIcon(this, g, snakeXlength[i], snakeYlength[i]);
             }
+            fruitImage = new ImageIcon("./src/assets/fruit.png");
+
+            if (fruitXpos[xpos] == snakeXlength[0] && fruitYpos[ypos] == snakeYlength[0]) {
+                score += 5;
+                snakeLength++;
+                xpos = random.nextInt(34);
+                ypos = random.nextInt(23);
+            }
+
+            fruitImage.paintIcon(this, g, fruitXpos[xpos], fruitYpos[ypos]);
         }
 
         g.dispose();
