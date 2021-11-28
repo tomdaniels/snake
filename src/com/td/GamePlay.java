@@ -67,8 +67,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.drawRect(24, 74, 851, 577);
 
         //background
-        g.setColor(Color.black);
+        g.setColor(Color.BLACK);
         g.fillRect(25,75,850,575);
+
+        // score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("areal", Font.PLAIN, 14));
+        g.drawString("Score: " + score, 780, 30);
+        g.drawString("Length: " + snakeLength, 780, 50);
 
         headRight = new ImageIcon("./src/assets/headRight.png");
         headRight.paintIcon(this, g, snakeXlength[0], snakeYlength[0]);
@@ -105,6 +111,22 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             }
 
             fruitImage.paintIcon(this, g, fruitXpos[xpos], fruitYpos[ypos]);
+        }
+
+        for (int i = 1; i<snakeLength; i++) {
+            if (snakeXlength[i] == snakeXlength[0] && snakeYlength[i] == snakeYlength[0]) {
+                right = false;
+                left = false;
+                up = false;
+                down = false;
+
+                g.setColor(Color.RED);
+                g.setFont(new Font("ariel", Font.BOLD, 40));
+                g.drawString("GAME OVER! Your score: " + score, 250, 300);
+
+                g.setFont(new Font("ariel", Font.PLAIN, 20));
+                g.drawString("Press [enter] to restart: ", 350, 340);
+            }
         }
 
         g.dispose();
@@ -223,6 +245,15 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            moves = 0;
+            score = 0;
+            snakeLength = 3;
+            xpos = random.nextInt(34);
+            ypos = random.nextInt(23);
+            repaint();
+        }
+
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             moves++;
 
